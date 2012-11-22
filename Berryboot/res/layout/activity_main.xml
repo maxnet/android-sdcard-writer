@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/imagefile"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/editImagefile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textNoSuggestions" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/outputdevice"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/editOutputdevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textNoSuggestions"
+            android:text="@string/defaultSDdevice" />
+
+        <CheckBox
+            android:id="@+id/checkPatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/patchimage" />
+
+        <Button
+            android:id="@+id/buttonWriteImage"
+            android:layout_width="311dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="43dp"
+            android:text="@string/write" />
+
+        <Button
+            android:id="@+id/buttonExit"
+            android:layout_width="309dp"
+            android:layout_height="wrap_content"
+            android:text="@string/exit" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="@string/warning"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</LinearLayout>
+

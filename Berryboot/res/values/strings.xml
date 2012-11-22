@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Berryboot installer</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="imagefile">Image file</string>
+    <string name="outputdevice">SD card device</string>
+    <string name="patchimage">Patch image to include hardware information of this device</string>
+    <string name="warning">Insert empty SD card and press button.\nWARNING: all existing data on the SD card will be erased!</string>
+    <string name="write">Write image to SD card</string>
+    <string name="exit">Exit</string>
+    <string name="showhwinfo">Show hardware info</string>
+    <string name="defaultSDdevice">/dev/block/mmcblk0</string>
+
+</resources>
