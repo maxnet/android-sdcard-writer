@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -132,7 +134,20 @@ public class MainActivity extends Activity implements OnClickListener {
 				String sd = editOutputDevice.getText().toString(); 
 				String datadir = getFilesDir().getPath();
 
-				if (!new File(datadir+"/a10-patchspl").exists())
+				/* The image files need to be extracted from the .apk to the data folder
+				 * unless the user has run the app before, and this has already been done.
+				 * We store the version (lastUpdate timestamp) of the extracted files in the preferences.
+				 */
+				SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+				long berrybootVersion = -1;
+
+				try {
+					berrybootVersion = getPackageManager().getPackageInfo(getPackageName(), 0).lastUpdateTime;
+				} catch (NameNotFoundException e) {
+					e.printStackTrace();
+				}
+				if (!new File(datadir+"/a10-patchspl").exists()
+						|| preferences.getLong("berrybootimgversion", 0) != berrybootVersion)
 				{
 					updateProgress("Uncompressing files from .apk");
 					try	{
@@ -142,6 +157,7 @@ public class MainActivity extends Activity implements OnClickListener {
 						new File(datadir+"/a10-patchspl").setExecutable(true);
 						new File(datadir+"/mntNand").mkdir();
 						new File(datadir+"/mntSD").mkdir();
+						preferences.edit().putLong("berrybootimgversion", berrybootVersion).commit();
 					} catch (IOException ie)	{
 						error("Error uncompressing files. Check disk space.");
 						return;
@@ -151,6 +167,14 @@ public class MainActivity extends Activity implements OnClickListener {
 				updateProgress("Unmounting SD card");
 				execCommandAsRoot("umount "+sd);
 				execCommandAsRoot("umount "+sd+"p1");
+				/* Also unmount everything mounted to /mnt/extsd,
+				 * as vold seems to mount /dev/vold/somedevice instead of /dev/block/mmcblk0p1 */
+				String[] extsdFolders = new File("/mnt/extsd").list();
+				for (String extsdFolder : extsdFolders)
+				{
+					execCommandAsRoot("umount /mnt/extsd/"+extsdFolder);
+				}
+				execCommandAsRoot("umount /mnt/extsd");
 								
 				updateProgress("Writing image to SD card");
 				if (!execCommandAsRoot("dd 'if="+imagefile+"' of="+sd+" bs=1024k"))
